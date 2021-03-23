@@ -29,16 +29,27 @@ client.connect();
 app.post("/", async (req, res) => {
   try {
     const values = [req.body.title, req.body.post];
-    await client.query("INSERT INTO posts (title, post) VALUES ($1, $2);", values);
+    const newPost = await client.query("INSERT INTO posts (title, post) VALUES ($1, $2) RETURNING *;", values);
+    res.json(newPost.rows[newPost.rows.length - 1]);
   } catch (err) {
     console.error(err.message)
   }
 });
 
-// app.get("/", async (req, res) => {
-//   const dbres = await client.query('select * from categories');
-//   res.json(dbres.rows);
-// });
+app.delete("/", async (req, res) => {
+  try {
+    const values = [req.body.id];
+    const newPost = await client.query("DELETE FROM posts WHERE id=$1 RETURNING *;", values);
+    res.json(newPost.rows[0]);
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+app.get("/", async (req, res) => {
+  const dbres = await client.query('SELECT * FROM posts ORDER BY id DESC');
+  res.json(dbres.rows);
+});
 
 //Start the server on the given port
 const port = process.env.PORT;
