@@ -11,11 +11,13 @@ config(); //Read .env file lines as though they were env vars.
 //For the ssl property of the DB connection config, use a value of...
 // false - when connecting to a local DB
 // { rejectUnauthorized: false } - when connecting to a heroku DB
-const herokuSSLSetting = { rejectUnauthorized: false }
-const sslSetting = process.env.LOCAL ? false : herokuSSLSetting
+// const herokuSSLSetting = { rejectUnauthorized: false }
+// const sslSetting = process.env.LOCAL ? false : herokuSSLSetting
 const dbConfig = {
   connectionString: process.env.DATABASE_URL,
-  ssl: sslSetting,
+  ssl: {
+    rejectUnauthorized: false
+  }
 };
 
 const app = express();
