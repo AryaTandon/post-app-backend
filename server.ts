@@ -36,6 +36,16 @@ app.post("/", async (req, res) => {
   }
 });
 
+app.put("/", async (req, res) => {
+  try {
+    const values = [req.body.editedTitle, req.body.editedPost, req.body.id];
+    const newPost = await client.query("UPDATE posts SET title = $1, post = $2 WHERE id = $3 RETURNING *;", values);
+    res.json(newPost.rows[0]);
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
 app.delete("/", async (req, res) => {
   try {
     const values = [req.body.id];
