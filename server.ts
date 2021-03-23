@@ -14,7 +14,7 @@ config(); //Read .env file lines as though they were env vars.
 // const herokuSSLSetting = { rejectUnauthorized: false }
 // const sslSetting = process.env.LOCAL ? false : herokuSSLSetting
 const dbConfig = {
-  connectionString: process.env.DATABASE_LOCAL,
+  connectionString: process.env.DATABASE_URL,
   // ssl: sslSetting,
 };
 
